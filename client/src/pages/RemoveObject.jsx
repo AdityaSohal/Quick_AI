@@ -90,46 +90,9 @@ const RemoveObject = () => {
       );
 
       if (data.success) {
-        console.log('Processed Image URL:', data.content); // Log the processed image URL
-        
-        // Debug the URL structure
-        debugCloudinaryUrl(data.content);
-        
-        // Verify the image URL before setting it
-        verifyImageUrl(data.content).then(isValid => {
-          if (isValid) {
-            setImageLoading(true);
-            // Add timestamp to URL to prevent caching
-            setProcessedImage(getUncachedUrl(data.content));
-          } else {
-            // If verification fails, try a direct approach
-            console.log('Image verification failed, trying direct URL...');
-            // Extract the public ID and create a direct URL
-            if (data.content.includes('cloudinary.com')) {
-              const parts = data.content.split('/upload/');
-              if (parts.length === 2) {
-                const publicIdParts = parts[1].split('/');
-                const publicId = publicIdParts[publicIdParts.length - 1].split('.')[0]; // Remove extension if any
-                const directUrl = `${parts[0]}/upload/e_gen_removal:${object}/f_auto,q_auto/${publicId}`;
-                console.log('Using direct URL:', directUrl);
-                setImageLoading(true);
-                setProcessedImage(directUrl);
-              } else {
-                toast.error('Failed to process image URL');
-              }
-            } else {
-              toast.error('Failed to process image URL');
-            }
-          }
-        }).catch(err => {
-          console.error('Error verifying image:', err);
-          setImageLoading(true);
-          setProcessedImage(getUncachedUrl(data.content)); // Try anyway
-        });
-        
         toast.success('Object removed successfully!');
       } else {
-        toast.error(data.message || 'Failed to remove object');
+        alert(data.message || 'Failed to remove object');
       }
     } catch (error) {
       console.error('Error removing object:', error);
