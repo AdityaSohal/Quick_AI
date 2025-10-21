@@ -14,15 +14,15 @@ const Navbar = () => {
       <img
         src={assets.logo}
         alt="logo"
-        className="w-32 sm:w-44 cursor-pointer"
+        className="w-24 sm:w-44 cursor-pointer"
         onClick={() => navigate('/')}
       />
       {user ? (
-        <UserButton />
+        <UserButton className="hidden sm:block" />
       ) : (
         <button
           onClick={openSignIn}
-          className="flex items-center gap-2 rounded-full text-sm cursor-pointer bg-primary text-white px-10 py-2.5"
+          className="hidden sm:flex items-center gap-2 rounded-full text-sm cursor-pointer bg-primary text-white px-10 py-2.5"
         >
           Get Started
           <ArrowRight className="w-4 h-4" />
