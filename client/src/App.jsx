@@ -13,6 +13,7 @@ import WriteArticle from './pages/WriteArticle'
 import { useAuth } from '@clerk/clerk-react'
 import { useEffect } from 'react'
 import {Toaster} from 'react-hot-toast'
+import { GenerateImageProvider } from './contexts/GenerateImageContext'
 
 const App = () => {
   //const {getToken}= useAuth()
@@ -20,22 +21,24 @@ const App = () => {
   //   getToken().then((token)=>console.log(token));
   // },[])
   return (
-    <div>
-      <Toaster/>
-    <Routes>
-      <Route path='/'element={<Home/>}/>
-      <Route path='/ai' element={<Layout/>}>
-      <Route index element = {<Dashboard/>}/>
-      <Route path='write-article' element={<WriteArticle/>}/>
-      <Route path='blog-titles' element={<BlogTitles/>}/>
-      <Route path='remove-background' element={<RemoveBackgorund/>}/>
-      <Route path='generate-images' element={<GenerateImages/>}/>
-      <Route path='remove-object' element={<RemoveObject/>}/>
-      <Route path='review-resume' element={<ReviewResume/>}/>
-      <Route path='community' element={<Community/>}/>
-      </Route>
-    </Routes> 
-    </div>
+    <GenerateImageProvider>
+      <div>
+        <Toaster/>
+      <Routes>
+        <Route path='/'element={<Home/>}/>
+        <Route path='/ai' element={<Layout/>}>
+        <Route index element = {<Dashboard/>}/>
+        <Route path='write-article' element={<WriteArticle/>}/>
+        <Route path='blog-titles' element={<BlogTitles/>}/>
+        <Route path='remove-background' element={<RemoveBackgorund/>}/>
+        <Route path='generate-images' element={<GenerateImages/>}/>
+        <Route path='remove-object' element={<RemoveObject/>}/>
+        <Route path='review-resume' element={<ReviewResume/>}/>
+        <Route path='community' element={<Community/>}/>
+        </Route>
+      </Routes>
+      </div>
+    </GenerateImageProvider>
   )
 }
 

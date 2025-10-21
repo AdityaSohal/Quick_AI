@@ -1,8 +1,9 @@
 import { Image, Download } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { useGenerateImage } from '../contexts/GenerateImageContext';
 
 // Set base URL
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
@@ -14,10 +15,10 @@ const GenerateImages = () => {
 
   const [selectedStyle, setSelectedStyle] = useState('Realistic');
   const [input, setInput] = useState('');
-  const [publish, setPublish] = useState(false);
   const [loading, setLoading] = useState(false);
   const [generatedImage, setGeneratedImage] = useState('');
   const { getToken } = useAuth();
+  const { publish, setPublish } = useGenerateImage();
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();

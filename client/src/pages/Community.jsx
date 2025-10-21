@@ -196,31 +196,31 @@ const Community = () => {
                 </div>
                 
                 {/* Overlay with prompt and like button */}
-                <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200'>
+                <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 sm:opacity-100 transition-opacity duration-200'>
                   <div className='absolute bottom-0 left-0 right-0 p-3'>
                     {/* Prompt */}
                     <p className='text-white text-sm mb-2 line-clamp-2'>
                       {creation.prompt}
                     </p>
-                    
+
                     {/* Creator info and like button */}
                     <div className='flex items-center justify-between'>
                       <div className='text-white text-xs'>
-                        {creation.first_name && creation.last_name 
+                        {creation.first_name && creation.last_name
                           ? `${creation.first_name} ${creation.last_name}`
                           : 'Anonymous'
                         }
                       </div>
-                      
+
                       {/* Like button */}
                       <button
                         onClick={() => handleLike(creation.id)}
                         className='flex items-center gap-1 bg-white/20 backdrop-blur-sm rounded-full px-2 py-1 hover:bg-white/30 transition-colors'
                       >
-                        <Heart 
+                        <Heart
                           className={`w-4 h-4 ${
-                            likedCreations.has(creation.id) 
-                              ? 'fill-red-500 text-red-500' 
+                            likedCreations.has(creation.id)
+                              ? 'fill-red-500 text-red-500'
                               : 'text-white'
                           }`}
                         />
