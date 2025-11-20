@@ -1,3 +1,5 @@
+/* This code snippet is creating a React context for generating images. It defines a context called
+`GenerateImageContext` using the `createContext` function from React. */
 import React, { createContext, useContext, useState } from 'react';
 
 const GenerateImageContext = createContext();

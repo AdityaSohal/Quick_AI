@@ -1,3 +1,4 @@
+/* This code snippet is a React component named `AITools`. Here's a breakdown of what it does: */
 import React from 'react'
 import { AiToolsData } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
