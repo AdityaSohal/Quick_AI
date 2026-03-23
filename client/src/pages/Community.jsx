@@ -31,7 +31,6 @@ const Community = () => {
 
       if (data.success) {
         setCreations(data.creations);
-        // Initialize liked creations based on is_liked field from backend
         const likedSet = new Set();
         data.creations.forEach(creation => {
           if (creation.is_liked) {
@@ -71,7 +70,6 @@ const Community = () => {
       );
 
       if (data.success) {
-        // Update local state
         const newLikedCreations = new Set(likedCreations);
         if (data.liked) {
           newLikedCreations.add(creationId);
@@ -80,13 +78,12 @@ const Community = () => {
         }
         setLikedCreations(newLikedCreations);
 
-        // Update the creation's like count in the list
-        setCreations(prevCreations => 
+        setCreations(prevCreations =>
           prevCreations.map(creation => {
             if (creation.id === creationId) {
               return {
                 ...creation,
-                like_count: data.liked 
+                like_count: data.liked
                   ? (creation.like_count || 0) + 1
                   : Math.max((creation.like_count || 0) - 1, 0),
                 is_liked: data.liked
@@ -155,7 +152,6 @@ const Community = () => {
         setShowUploadModal(false);
         setSelectedImage(null);
         setImageDescription('');
-        // Refresh the creations list
         fetchCreations();
       } else {
         toast.error(data.message || 'Failed to post image');
@@ -169,12 +165,26 @@ const Community = () => {
     }
   };
 
+  const closeModal = () => {
+    setShowUploadModal(false);
+    setSelectedImage(null);
+    setImageDescription('');
+  };
+
   return (
     <div className='flex-1 h-full flex flex-col gap-4 p-6'>
-             <div className='flex justify-between items-center'>
-         <h1 className='text-2xl font-bold text-gray-800'>Community Creations</h1>
-       </div>
-      
+      {/* Header row with Post button */}
+      <div className='flex justify-between items-center'>
+        <h1 className='text-2xl font-bold text-gray-800'>Community Creations</h1>
+        <button
+          onClick={() => setShowUploadModal(true)}
+          className='flex items-center gap-2 bg-gradient-to-r from-[#3C81F6] to-[#9234EA] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 transition'
+        >
+          <Upload className='w-4 h-4' />
+          Post Image
+        </button>
+      </div>
+
       <div className='bg-white h-full w-full rounded-xl overflow-y-scroll p-4'>
         {loading ? (
           <div className='flex justify-center items-center py-10'>
@@ -185,34 +195,31 @@ const Community = () => {
         ) : (
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4'>
             {creations.map((creation) => (
-              <div key={creation.id} className='relative group bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow'>
-                {/* Image */}
+              <div
+                key={creation.id}
+                className='relative group bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow'
+              >
                 <div className='aspect-square overflow-hidden'>
-                  <img 
-                    src={creation.content} 
-                    alt={creation.prompt || 'Community creation'} 
+                  <img
+                    src={creation.content}
+                    alt={creation.prompt || 'Community creation'}
                     className='w-full h-full object-cover group-hover:scale-105 transition-transform duration-200'
                   />
                 </div>
-                
-                {/* Overlay with prompt and like button */}
+
                 <div className='absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 sm:opacity-100 transition-opacity duration-200'>
                   <div className='absolute bottom-0 left-0 right-0 p-3'>
-                    {/* Prompt */}
                     <p className='text-white text-sm mb-2 line-clamp-2'>
                       {creation.prompt}
                     </p>
 
-                    {/* Creator info and like button */}
                     <div className='flex items-center justify-between'>
                       <div className='text-white text-xs'>
                         {creation.first_name && creation.last_name
                           ? `${creation.first_name} ${creation.last_name}`
-                          : 'Anonymous'
-                        }
+                          : 'Anonymous'}
                       </div>
 
-                      {/* Like button */}
                       <button
                         onClick={() => handleLike(creation.id)}
                         className='flex items-center gap-1 bg-white/20 backdrop-blur-sm rounded-full px-2 py-1 hover:bg-white/30 transition-colors'
@@ -231,8 +238,6 @@ const Community = () => {
                     </div>
                   </div>
                 </div>
-                
-                
               </div>
             ))}
           </div>
@@ -245,14 +250,11 @@ const Community = () => {
           <div className='bg-white rounded-lg p-6 w-full max-w-md mx-4'>
             <div className='flex justify-between items-center mb-4'>
               <h2 className='text-xl font-semibold'>Post Image to Community</h2>
-              <button
-                onClick={() => setShowUploadModal(false)}
-                className='text-gray-500 hover:text-gray-700'
-              >
+              <button onClick={closeModal} className='text-gray-500 hover:text-gray-700'>
                 <X className='w-5 h-5' />
               </button>
             </div>
-            
+
             <div className='space-y-4'>
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
@@ -265,7 +267,7 @@ const Community = () => {
                   className='w-full p-2 border border-gray-300 rounded-lg'
                 />
               </div>
-              
+
               <div>
                 <label className='block text-sm font-medium text-gray-700 mb-2'>
                   Description
@@ -278,7 +280,7 @@ const Community = () => {
                   className='w-full p-2 border border-gray-300 rounded-lg resize-none'
                 />
               </div>
-              
+
               {selectedImage && (
                 <div className='flex justify-center'>
                   <img
@@ -288,10 +290,10 @@ const Community = () => {
                   />
                 </div>
               )}
-              
+
               <div className='flex gap-3'>
                 <button
-                  onClick={() => setShowUploadModal(false)}
+                  onClick={closeModal}
                   className='flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50'
                 >
                   Cancel

@@ -3,6 +3,7 @@ import Markdown from 'react-markdown'
 
 const CreationItems = ({ item }) => {
   const [expanded, setExpanded] = useState(false);
+  const isImage = item.type === 'image';
 
   return (
     <div
@@ -17,9 +18,9 @@ const CreationItems = ({ item }) => {
           </p>
         </div>
         <button
-          className='bg-[#EFF6FF] border border-[#BFDBFE] text-[#1E40AF] px-4 py-1 rounded-full'
+          className='bg-[#EFF6FF] border border-[#BFDBFE] text-[#1E40AF] px-4 py-1 rounded-full shrink-0'
           onClick={(e) => {
-            e.stopPropagation(); // Prevent button click from toggling expand
+            e.stopPropagation();
             setExpanded(!expanded);
           }}
         >
@@ -27,18 +28,29 @@ const CreationItems = ({ item }) => {
         </button>
       </div>
 
-      {expanded ? (
-        <div>
-          <img
-            src={item.content}
-            alt='generated'
-            className='mt-3 w-full max-w-md rounded'
-          />
+      {expanded && (
+        <div className='mt-3'>
+          {isImage ? (
+            <img
+              src={item.content}
+              alt='generated'
+              className='w-full max-w-md rounded'
+            />
+          ) : (
+            <div className='max-h-64 overflow-y-auto text-sm text-slate-700'>
+              <div className='reset-tw'>
+                <Markdown>{item.content}</Markdown>
+              </div>
+            </div>
+          )}
         </div>
-      ) : (
+      )}
+
+      {!expanded && !isImage && (
         <div className='mt-3 max-h-40 overflow-y-auto text-sm text-slate-700'>
           <div className='reset-tw'>
-            <Markdown>{item.content}</Markdown></div>
+            <Markdown>{item.content}</Markdown>
+          </div>
         </div>
       )}
     </div>
